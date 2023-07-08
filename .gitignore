@@ -22,3 +22,45 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+public class MyButton implements ActionListener {
+/*объявляется ссылка на объект типа JLabel. Она будет использована в методе actionPerformed () для отображения сведений о том, какая именно кнопка была нажата*/
+JLabel jlab;
+JTextField jtf;
+/*Конструктор класса начинается с создания контейнера jfrm типа JFrame. Затем в качестве мене-джера компоновки для панели содержимого контейнера jfrm устанавливается FlowLayout, как по-казано ниже*/
+MyButton (){
+JFrame jfrm = new JFrame("Test Applet"); //cоздать новый контейнер
+/*по умолчанию на панели содержимого в качестве менеджера компоновки используется BorderLayout. Менеджер компоновки FlowLayout размещает компоненты построчно: слева направо и сверху вниз. После заполнения текущей строки менеджер компоновки переходит к следующей. Следует, однако, иметь в виду, что при изменении размеров контейнера расположение компонентов может измениться*/
+jfrm.setLayout(new FlowLayout()); //задать объект FlowLayout для менеджера компоновки
+jfrm.setSize(500, 200); //задать исходные размеры фрейма
+//Прекратить работу программы, если пользователь закрывает приложение
+jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+/*После установки размеров фрейма в конструкторе ButtonDemo () создаются две кнопки. На первой кнопке отображается надпись Up (Отпущена), на второй - Down (Нажата)*/
+JButton jbtnUp = new JButton("Yes");
+JButton jbtnDown = new JButton("May be");
+jtf = new JTextField(10); // Создать текстовое поле
+/*Далее экземпляр класса ButtonDemo, для ссылки на который используется ключевое слово this, добавляется в качестве слушателя действий для кнопок с помощью следующих строк кода. В ре-зультате выполнения этого кода объект, создающий кнопки, будет получать также уведомления об их нажатии*/
+jbtnUp.addActionListener(this);
+jbtnDown.addActionListener(this); ;
+//Добавить кнопки в панель содержимого
+jfrm.add(jbtnUp) ;
+jfrm.add(jbtnDown) ;
+jlab = new JLabel("Press а button."); // Создать метку
+jfrm.add(jtf);
+jfrm.setVisible(true);}// Отобразить фрейм
+
+/*Всякий раз, когда кнопка нажимается, генерируется событие, о котором зарегистрированные при-емники уведомляются посредством вызова метода actionPerformed (). Объект типа ActionEvent, представляющий событие кнопки, передается этому методу в качестве параметра. В программе ButtonDemo это событие передается следующей реализации метода actionPerformed ()*/
+public void actionPerformed(ActionEvent ае) {
+if (ае. getActionCommand () . equals ( "Yes"))
+ 
+jlab.setText("Button <Yes> is pressed");
+else
+jlab.setText("Button <May be> is pressed");
+}
+public static void main(String args[]) {
+    // Создать фрейм в потоке диспетчеризации событий
+    SwingUtilities.invokeLater(new Runnable() {
+    public void run() {
+    new MyButton();}
+    }) ;
+    }
+}
